@@ -12,8 +12,11 @@ jest.mock("../app/store", () => mockStore)
 
 import router from "../app/Router.js";
 
+// Connecté en tant qu'employé
 describe("Given I am connected as an employee", () => {
+  // Lorsque je suis sur la page des notes de frais
   describe("When I am on Bills Page", () => {
++
     test("Then bill icon in vertical layout should be highlighted", async () => {
 
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
@@ -38,15 +41,17 @@ describe("Given I am connected as an employee", () => {
       expect(dates).toEqual(datesSorted)
     })
   })
-
+  // Lorsque je suis sur la page des notes de frais mais qu'elle charge
   describe('When I am on Bills page but it is loading', () => {
+    // Alors, un loader doit apparaître
     test('Then, Loading page should be rendered', () => {
       document.body.innerHTML = BillsUI({ loading: true })
       expect(screen.getAllByText('Loading...')).toBeTruthy()
     })
   })
-
+  // Lorsque je suis sur la page des notes de frais mais qu'il y a une erreur
   describe('When I am on Bills page but back-end send an error message', () => {
+    // Alors, la page d'erreur doit apparaître
     test('Then, Error page should be rendered', () => {
       document.body.innerHTML = BillsUI({ error: 'some error message' })
       expect(screen.getAllByText('Erreur')).toBeTruthy()
@@ -54,8 +59,9 @@ describe("Given I am connected as an employee", () => {
   })
 })
 
-//Test container/Bills.js
+// Connecté en tant qu'employé
 describe('Given I am connected as an Employee', () => {
+  // Lorsque je clique sur le bouton de création de note de frais
   describe('When I am on Bills page and I click on NewBill button', () => {
     test('Then, handleClickNewBill() is called', () => {
       const onNavigate = (pathname) => {
@@ -97,8 +103,9 @@ describe('Given I am connected as an Employee', () => {
       expect(screen.getByText('Envoyer une note de frais')).toBeTruthy()
     })
   })
-
+  // Lorsque je clique sur l'oeil de visualisation d'une note de frais
   describe('When I am on Bills page and I click on icon Eye', () => {
+    // Alors, la fonction handleClickIconEye() doit être appelée
     test('Then, handleClickIconEye() is called', () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -128,7 +135,7 @@ describe('Given I am connected as an Employee', () => {
       expect(handleClickIconEye).toHaveBeenCalled()
       expect(handleClickIconEye).toHaveBeenCalledTimes(4)
     })
-
+    //Alors, la modale de visualisation de la note de frais s'ouvre
     test('Then, modale is open', () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -150,8 +157,9 @@ describe('Given I am connected as an Employee', () => {
       expect(screen.getByText('Justificatif')).toBeTruthy()
     })
   })
-
+  // Lorsque je suis sur la page des notes de frais mais qu'elle charge
   describe('When I am on Bills page', () => {
+    // Alors, le chargement des données lance la fonction getBills()
     test('Then, charging data launch getBills', () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -170,8 +178,11 @@ describe('Given I am connected as an Employee', () => {
   })
 })
 
+// Connecté en tant qu'emmployé
 describe("Given I am a user connected as Employee", () => {
+  // Lorsque j'ouvre une note de frais
   describe("When I navigate to bills", () => {
+    // Alors, récupère les données de la note de frais et réalise un mock
     test("fetches bills from mock API GET", async () => {
       const getSpy = jest.spyOn(mockStore.bills(), "list");
       const billss = await mockStore.bills().list()
